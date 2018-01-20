@@ -6,16 +6,16 @@ from functools import partial
 
 import neovim
 
-def handle_request(nvim, name, args):
-    return
+#def handle_request(nvim, name, args):
+#    return
 
-def handle_notification(nvim, name, args):
-    if name == 'quit':
-        error_cb(nvim, "Got quit")
-        sys.exit(0)
-
-    if name == 'do_something':
-        nvim.command("echom 'doing something'")
+#def handle_notification(nvim, name, args):
+#    if name == 'quit':
+#        error_cb(nvim, "Got quit")
+#        sys.exit(0)
+#
+#    if name == 'do_something':
+#        nvim.command("echom 'doing something'")
 
 def error_cb(nvim, message):
     with open('nvimlog', 'a') as f:
@@ -29,9 +29,9 @@ def main():
     for buffer in nvim.buffers:
         buffer.api.live_updates(True)
 
-    nvim.run_loop(partial(handle_request, nvim),
-                  partial(handle_notification, nvim),
-                  err_cb=partial(error_cb, nvim))
+    #nvim.run_loop(partial(handle_request, nvim),
+    #              partial(handle_notification, nvim),
+    #              err_cb=partial(error_cb, nvim))
 
 
 if __name__ == '__main__':
