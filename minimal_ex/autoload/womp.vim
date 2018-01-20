@@ -16,9 +16,14 @@ function! womp#connect()
     echoerr s:bin
   else
     let s:jobid = result
+    echom "Result was" . s:jobid
     call s:ConfigureJob(result)
   endif
 endfunction
+
+function! womp#do_something()
+  call rpcnotify(s:jobid, 'do_something')
+endfun
 
 function! womp#stop()
   call s:StopJob()
@@ -41,6 +46,7 @@ function! s:StartJob()
   if 0 == s:jobid
     let id = jobstart([s:bin], { 'rpc': v:true, 'on_stderr': function('s:OnStderr') })
     echom "Started"
+    echom id
     return id
   else
     return 0
@@ -54,17 +60,18 @@ function! s:StopJob()
       " clear all previous autocommands
       autocmd!
     augroup END
-    echom s:jobid
+      echom s:jobid
 
     call rpcnotify(s:jobid, 'quit')
     let result = jobwait([s:jobid], 500)[0]
 
     if -1 == result
-      " kill the job
+      "kill the job
       call jobstop(s:jobid)
     endif
 
-    " reset job id back to zero
-    let s:jobid = 0
   endif
+  "
+  " reset job id back to zero
+  let s:jobid = 0
 endfunction
