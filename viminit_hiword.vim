@@ -1,3 +1,4 @@
+syn on
 set rtp+=~/Devel/neovim/debug_phodge/vim-hiword
 
 fun! <SID>Hiwords()
